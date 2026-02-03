@@ -1,0 +1,19 @@
+@startuml
+title Spring MVC - Create Post Sequence
+
+actor User
+participant PostController
+participant PostService
+participant UserRepository
+participant PostRepository
+
+User -> PostController : POST /posts (title, content)
+PostController -> PostService : createPost(userId, postRequest)
+PostService -> UserRepository : findById(userId)
+UserRepository --> PostService : User
+PostService -> PostRepository : save(Post)
+PostRepository --> PostService : Post
+PostService --> PostController : PostResponse
+PostController --> User : 201 Created
+
+@enduml

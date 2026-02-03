@@ -1,0 +1,22 @@
+@startuml
+title Spring MVC - Create Comment Sequence
+
+actor User
+participant CommentController
+participant CommentService
+participant UserRepository
+participant PostRepository
+participant CommentRepository
+
+User -> CommentController : POST /posts/{postId}/comments (content)
+CommentController -> CommentService : createComment(userId, postId, commentRequest)
+CommentService -> UserRepository : findById(userId)
+UserRepository --> CommentService : User
+CommentService -> PostRepository : findById(postId)
+PostRepository --> CommentService : Post
+CommentService -> CommentRepository : save(Comment)
+CommentRepository --> CommentService : Comment
+CommentService --> CommentController : CommentResponse
+CommentController --> User : 201 Created
+
+@enduml

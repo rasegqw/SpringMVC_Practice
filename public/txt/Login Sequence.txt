@@ -1,0 +1,16 @@
+@startuml
+title Spring MVC - Login Sequence
+
+actor User
+participant LoginController
+participant LoginService
+participant UserRepository
+
+User -> LoginController : POST /login (userId, password)
+LoginController -> LoginService : login(userId, password)
+LoginService -> UserRepository : findByUserId(userId)
+UserRepository --> LoginService : User
+LoginService -> LoginService : validatePassword()
+LoginService --> LoginController : loginSuccess
+LoginController --> User : 200 OK
+@enduml
