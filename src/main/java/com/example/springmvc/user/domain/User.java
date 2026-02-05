@@ -1,20 +1,33 @@
 package com.example.springmvc.user.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 
 import java.util.Date;
 import java.util.function.Supplier;
 
+@Entity
+@Table(name = "users")
 public class User {
 
+    @Id
+    @GeneratedValue
     @Getter
     Long id;
+
     @Getter
     String userId;
+
     @Getter
     String password;
+
     @Getter
     String nickname;
+
+    @GeneratedValue
     @Getter
     Date createdAt;
 
@@ -26,7 +39,7 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    public User(String userId, String password, String nickname) {
+    private User(String userId, String password, String nickname) {
         this.userId = userId;
         this.password = password;
         this.nickname = nickname;
@@ -34,6 +47,10 @@ public class User {
 
     public static User of(String user1, String password, String nick) {
         return new User(user1, password, nick);
+    }
+
+    public static User create(String userId, String password, String nickname) {
+        return new User(userId, password, nickname);
     }
 
     public boolean matchPassword(String password) {
